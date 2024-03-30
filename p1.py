@@ -13,7 +13,6 @@ data = sc.textFile ("input/input.txt").map(lambda line: line.split(','))
 header = data.first()
 data = data.filter(lambda line: line != header)
 
-# # List of Tuples with first value being the user, and second value a list of tuples holding (MovieID, Rating)
 user_ratings = data.map(lambda x: (str(x[0]), [str(x[1])])).reduceByKey(lambda x, y: x + y).collect()
 positive_user_ratings = data.map(lambda x: (str(x[0]), [(str(x[1]), int(x[2]))])).filter(lambda x: x[1][0][1] > 2).reduceByKey(lambda x, y: x + y).map(lambda x: (x[0], [m_r[0] for m_r in x[1]])).collect()
 
